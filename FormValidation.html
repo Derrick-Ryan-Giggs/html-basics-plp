@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2>Interactive Controls</h2>
+        <button onclick="toggleBackground()">Toggle Background Color</button>
+        
+        <div style="margin-top: 20px;">
+            <label for="textSize">Text Size: <span id="sizeValue">16</span>px</label>
+            <input type="range" id="textSize" min="12" max="32" value="16" oninput="adjustTextSize()">
+        </div>
+
+        <button onclick="openModal()">Open Modal</button>
+
+        <div style="margin-top: 20px;">
+            <label for="messageSelect">Select a Message:</label>
+            <select id="messageSelect" onchange="showMessage()">
+                <option value="">Choose an option...</option>
+                <option value="hello">Hello Message</option>
+                <option value="goodbye">Goodbye Message</option>
+                <option value="thanks">Thank You Message</option>
+            </select>
+            <p id="selectedMessage"></p>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Modal Window</h2>
+            <p>This is a modal window!</p>
+            <button onclick="closeModal()">Close Modal</button>
+        </div>
+    </div>
+
+    <p id="resizableText">This text will change size based on the slider value.</p>
+
+    <form id="validationForm" onsubmit="validateForm(event)">
+        <h2>Form Validation</h2>
+        
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <div id="nameError" class="error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <div id="emailError" class="error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <div id="passwordError" class="error"></div>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        let isColorToggled = false;
+
+        function toggleBackground() {
+            document.body.style.backgroundColor = isColorToggled ? 'white' : '#f0f0f0';
+            isColorToggled = !isColorToggled;
+        }
+
+        function adjustTextSize() {
+            const slider = document.getElementById('textSize');
+            const text = document.getElementById('resizableText');
+            const sizeDisplay = document.getElementById('sizeValue');
+            text.style.fontSize = slider.value + 'px';
+            sizeDisplay.textContent = slider.value;
+        }
+
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function showMessage() {
+            const select = document.getElementById('messageSelect');
+            const messageElement = document.getElementById('selectedMessage');
+            const messages = {
+                'hello': 'Hello, welcome to our website!',
+                'goodbye': 'Goodbye, hope to see you again!',
+                'thanks': 'Thank you for visiting!'
+            };
+            messageElement.textContent = messages[select.value] || '';
+        }
+
+        function validateForm(event) {
+            event.preventDefault();
+            let isValid = true;
+
+            // Name validation
+            const name = document.getElementById('name').value;
+            const nameError = document.getElementById('nameError');
+            if (name.length < 3) {
+                nameError.textContent = 'Name must be at least 3 characters long';
+                nameError.style.display = 'block';
+                isValid = false;
+            } else {
+                nameError.style.display = 'none';
+            }
+
+            // Email validation
+            const email = document.getElementById('email').value;
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            // Password validation
+            const password = document.getElementById('password').value;
+            const passwordError = document.getElementById('passwordError');
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passwordRegex.test(password)) {
+                passwordError.textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter and one number';
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            if (isValid) {
+                alert('Form submitted successfully!');
+                event.target.reset();
+            }
+        }
+    </script>
+</body>
+</html>
