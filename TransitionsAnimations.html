@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Web Page</title>
+  <style>
+    /* Hover Transition */
+    .hover-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: blue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .hover-button:hover {
+      background-color: green;
+      transform: scale(1.2);
+    }
+
+    /* Animation Example */
+    .fade-in {
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+
+
+<!--Task 2: Use CSS animations with @keyframes to create dynamic effects-->
+<!--Example: An animated loading spinner-->
+
+<style>
+  /* Loading Spinner Animation */
+  .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid blue;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+
+
+<style>
+  #box {
+    transition: transform 2s;
+  }
+
+  .rotate {
+    animation: rotateBox 2s forwards;
+  }
+
+  @keyframes rotateBox {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+  <button class="hover-button">Hover Me</button>
+  <div class="fade-in" style="width: 100px; height: 100px; background-color: red; margin-top: 20px;"></div>
+
+  <div class="spinner"></div>
+
+
+  <!--Task 3: A function to toggle a CSS class that applies an animation-->
+
+<button onclick="toggleModal()">Toggle Modal</button>
+
+<div id="modal" style="width: 200px; height: 100px; background-color: gray; display: none;">
+  This is a modal!
+</div>
+
+
+<!--Part 3: Combining CSS Animations with JavaScript-->
+
+<button onclick="rotateBox()">Click to Rotate</button>
+
+<div id="box" style="width: 100px; height: 100px; background-color: blue; margin-top: 20px;"></div>
+
+</body>
+<!--Part 2: JavaScript Functions -->
+<!--Task 1: A function with parameters and return values-->
+<!--Example: A function that calculates the area of a rectangle.-->
+<script>
+  function calculateArea(length, width) {
+    return length * width;
+  }
+
+  // Example usage
+  let area = calculateArea(5, 3); // Length 5, Width 3
+  console.log("Area of rectangle: " + area); // Output: 15
+</script>
+
+<!--Task 2: A function that demonstrates the concept of scope (local vs. global variables)-->
+<script>
+  let globalVar = "I am global"; // Global variable
+
+  function scopeExample() {
+    let localVar = "I am local"; // Local variable
+    console.log(globalVar); // Can access global variable
+    console.log(localVar);  // Can access local variable
+  }
+
+  scopeExample();
+
+  // Uncommenting the following line will result in an error because localVar is not accessible outside the function
+  // console.log(localVar);
+</script>
+
+
+
+<script>
+  function toggleModal() {
+    const modal = document.getElementById('modal');
+    modal.classList.toggle('hidden');
+  }
+</script>
+
+<script>
+  function rotateBox() {
+    const box = document.getElementById('box');
+    box.classList.add('rotate');
+    // Reset the animation after it's complete to trigger it again if clicked multiple times
+    box.addEventListener('animationend', function() {
+      box.classList.remove('rotate');
+    });
+  }
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
